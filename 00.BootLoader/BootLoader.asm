@@ -11,6 +11,16 @@ START:
     mov ax, 0xB800  ; 비디오 메모리의 시작 어드레스를 세그먼트 레지스터 값으로 변환
     mov es, ax      ; ES세그먼트 레지스터에 설정
 
+mov si, 0   ; SI 레지스터(문자열 원본 인덱스 레지스터) 초기화
+
+.SCREENCLEARLOOP:
+    mov byte [ es: si ], 0  ; 비디오 메모리의 문자가 위치하는 어드레스에 0을 복사하여 문자 삭제
+    mov byte [ es: si + 1 ], 0x0A   ; 비디오 메모리의 속성이 위치하는 어드레스에 0x0A(검은 바탕에 밝은 녹색)을 복사
+    add si, 2   ; 문자와 속성을 설정했으므로 다음 위치로 이동
+
+    cmp si, 80 * 25 * 2 ; 화면의 전체 크기는 80*25
+    jl  .SCREENCLEARLOOP    ; SI 레지스터가 80*25*2 보다 작다면 아직 지우지 못한 영역이 있으므로 .SCREENCLEARLOOP 레이블로 이동
+
 mov byte [ es: 0x00 ], 'M'  ; DS 세그먼트:오프셋 0xB800:0x0000에 'M' 복사
 mov byte [ es: 0x01 ], 0x4A ; DS 세그먼트:오프셋 0xB800:0x0001에 0x4A(빨간 배경에 밝은 녹색 속성)를 복사
 
