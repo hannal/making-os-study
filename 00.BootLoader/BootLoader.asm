@@ -3,11 +3,16 @@
 
 SECTION .text   ; text 섹션(세그먼트)을 정의
 
-mov ax, 0xB800  ; AX레지스터에 0xB800 복사
-mov ds, ax      ; DS 세그먼트 레지스터에 AX 레지스터의 값 복사
+jmp 0x07C0:START    ; CS세그먼트 레지스터에 0x07C0을 복사하면서 START 레이블로 이동
 
-mov byte [ 0x00 ], 'M'  ; DS 세그먼트:오프셋 0xB800:0x0000에 'M' 복사
-mov byte [ 0x01 ], 0x4A ; DS 세그먼트:오프셋 0xB800:0x0001에 0x4A(빨간 배경에 밝은 녹색 속성)를 복사
+START:
+    mov ax, 0x07C0  ; 부트 로더의 시작 어드레스를 세그먼트 레지스터 값으로 변환
+    mov ds, ax      ; DS 세그먼트 레지스터에 설정
+    mov ax, 0xB800  ; 비디오 메모리의 시작 어드레스를 세그먼트 레지스터 값으로 변환
+    mov es, ax      ; ES세그먼트 레지스터에 설정
+
+mov byte [ es: 0x00 ], 'M'  ; DS 세그먼트:오프셋 0xB800:0x0000에 'M' 복사
+mov byte [ es: 0x01 ], 0x4A ; DS 세그먼트:오프셋 0xB800:0x0001에 0x4A(빨간 배경에 밝은 녹색 속성)를 복사
 
 jmp $   ; 현재 위치에서 무한 로프 수행
 
