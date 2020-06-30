@@ -136,7 +136,7 @@ PRINTMESSAGE:
 
     ; es 에 비디오 모드 어드레스 설정
     mov ax, 0xB800  ; 비디오 메모리 시작 어드레스(0x0B8000)를 세그먼트 레지스터 값으로 변환
-    mov ex, ax
+    mov es, ax
 
     ; x, y 좌표로 비디오 메모리의 어드레스를 계산
     ;; y 좌표를 이용해서 먼저 라인 어드레스를 구함
@@ -167,7 +167,7 @@ PRINTMESSAGE:
 
     jmp .MESSAGELOOP
 
-.MESSAGEEND
+.MESSAGEEND:
     pop dx  ; 함수에서 사용이 끝난 dx부터 es까지를 스택에 삽입된 값을 이용하여 복원
     pop cx  ; 스택이므로 삽입 역순으로 제거.
     pop ax
