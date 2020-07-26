@@ -7,7 +7,7 @@ jmp 0x07C0:START    ; CS세그먼트 레지스터에 0x07C0을 복사하면서 S
 
 ; os 환경설정 값
 
-TOTALSECTORCOUNT:   dw  1024 ; 부트 로더를 제외한 MINT64 OS 이미지의 크기
+TOTALSECTORCOUNT:   dw  1 ; 부트 로더를 제외한 MINT64 OS 이미지의 크기
 
 
 ; 코드 영역
@@ -51,9 +51,9 @@ START:
     ; 디스크를 읽기 전에 먼저 리셋
 RESETDISK:
     ; call bios reset function
-    ;; 서비스 번호 0, 드라이브 번호 0(floppy)
+    ;; 서비스 번호 0, 드라이브 번호 0(floppy), hda(0x80), hda(0x81)
     mov ax, 0
-    mov dl, 0
+    mov dl, 0x80
     int 0x13
     ; 에러 발생 시 에러 처리로 이동
     jc HANDLEDISKERROR
