@@ -17,7 +17,7 @@ Kernel32:
 	@echo ============ Build 32bit Kernel Loader ======================
 	@echo
 
-	make -C 01.Kernel32/Source
+	make -C 01.Kernel32
 
 	@echo
 	@echo ============ Build Complete ======================
@@ -28,7 +28,7 @@ Disk.img: BootLoader Kernel32
 	@echo ============ Image Build Start ======================
 	@echo
 
-	cat 00.BootLoader/BootLoader.bin 01.Kernel32/Source/VirtualOS.bin > Disk.img
+	cat 00.BootLoader/BootLoader.bin 01.Kernel32/VirtualOS.bin > Disk.img
 
 	@echo
 	@echo ============ Image Build Complete ======================
@@ -36,5 +36,5 @@ Disk.img: BootLoader Kernel32
 
 clean:
 	make -C 00.BootLoader clean
-	make -C 01.Kernel32/Source clean
+	make -C 01.Kernel32 clean
 	rm -f Disk.img
