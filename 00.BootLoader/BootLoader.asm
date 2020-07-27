@@ -77,7 +77,7 @@ READDATA:   ; 디스크를 읽는 코드 시작
     mov ch, byte [ TRACKNUMBER ]    ; 읽을 트랙 번호 설정
     mov cl, byte [ SECTORNUMBER ]
     mov dh, byte [ HEADNUMBER ]
-    mov dl, 0x80    ; 읽을 드라이브 번호(0=floppy) 설정
+    mov dl, 0x80    ; 읽을 드라이브 번호(0x00=floppy, 0x80=hda) 설정
     int 0x13
     jc HANDLEDISKERROR
 
